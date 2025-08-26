@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { AppError } from "./error/index.js";
 
 const errorHandler = (
-  error: Error | AppError,
+  error: any,
   req: Request,
   res: Response,
   next: NextFunction
