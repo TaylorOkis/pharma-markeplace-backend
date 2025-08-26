@@ -1,7 +1,12 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import notFound from "./core/middlewares/notFound.middleware";
-import errorMiddleware from "./core/middlewares/error.middleware";
+import dotenv from "dotenv";
+
+import { db } from "./config/firebase.js";
+import notFound from "./core/middlewares/notFound.middleware.js";
+import errorMiddleware from "./core/middlewares/error.middleware.js";
+
+dotenv.config();
 
 const app = express();
 
