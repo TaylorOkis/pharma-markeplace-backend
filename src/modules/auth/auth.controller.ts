@@ -2,12 +2,14 @@ import asyncWrapper from "@/core/utils/async.util.js";
 import { AuthService } from "./auth.service.js";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { attachRoleCookieToResponse } from "@/core/utils/cookies.util.js";
 
 export class AuthController {
   private authService = new AuthService();
 
   register = asyncWrapper(async (req: Request, res: Response) => {
     const newUser = await this.authService.registerUser(req.body);
+    attachRoleCookieToResponse({ res, role: req.body.role });
 
     res.status(StatusCodes.CREATED).json({
       status: "success",
