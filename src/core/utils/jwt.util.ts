@@ -1,5 +1,5 @@
 import { JWTErrorMessage } from "../constants/constants.js";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -13,7 +13,7 @@ const generateToken = ({ payLoad }: { payLoad: any }) => {
   }
 
   const token = jwt.sign(payLoad!, process.env.JWT_SECRET as string, {
-    expiresIn: (process.env.JWT_LIFETIME as any) ?? "id",
+    expiresIn: (process.env.JWT_LIFETIME as any) ?? "3d",
   });
 
   return token;

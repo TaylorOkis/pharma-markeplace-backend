@@ -7,7 +7,7 @@ export function attachRoleCookieToResponse({
   role,
 }: {
   res: Response;
-  role: string;
+  role: Object;
 }) {
   const roleToken = generateToken({ payLoad: role });
   const threeDays = 1000 * 60 * 60 * 72;

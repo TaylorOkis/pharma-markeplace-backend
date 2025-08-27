@@ -31,4 +31,27 @@ const authenticateUser = async (
   }
 };
 
-export { authenticateUser };
+const authenticateLogin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    throw new UnAuthenticatedError("Authorization Invalid");
+  }
+
+  const idToken = authHeader.split(" ")[1];
+
+  try {
+    console.log("Trying to verify");
+    await auth.verifyIdToken(idToken);
+    console.log("Verified");
+    next();
+  } catch (error) {
+    console.log("This was hit");
+    throw new UnAuthenticatedError("Authorization Invalid");
+  }
+};
+
+export { authenticateUser, authenticateLogin };

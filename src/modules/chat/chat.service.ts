@@ -6,11 +6,16 @@ export class ChatService {
   private chatRepository = new ChatRepository();
 
   async sendMessage(chat: ChatDTO) {
-    const chatId = generateChatId(chat.sender_id, chat.receiver_id);
-    const chatDoc = await this.chatRepository.getChat(chatId);
+    let chatId, chatDoc;
+    chatId = generateChatId(chat.sender_id, chat.receiver_id);
+    chatDoc = await this.chatRepository.getChat(chatId);
 
     if (!chatDoc.exists) {
-      await this.chatRepository.setChat(chatId, chat);
+      chatId = generateChatId(chat.receiver_id, chat.sender_id);
+      chatDoc = await this.chatRepository.getChat(chatId);
+      if (!chatDoc.exists) {
+        await this.chatRepository.setChat(chatId, chat);
+      }
     }
 
     const messageRef = await this.chatRepository.send(chatId, chat);
