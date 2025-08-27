@@ -11,7 +11,7 @@ const authenticateUser = async (
 ) => {
   const authHeader = req.headers.authorization;
   const roleToken = req.signedCookies.roleToken;
-  if (!authHeader || !authHeader.startsWith("Bearere ")) {
+  if (!authHeader || !authHeader.startsWith("Bearer ") || !roleToken) {
     throw new UnAuthenticatedError("Authorization Invalid");
   }
 
