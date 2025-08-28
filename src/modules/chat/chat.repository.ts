@@ -2,11 +2,11 @@ import { admin, db } from "@/config//firebase.js";
 import { ChatDTO } from "./chat.dtos.js";
 
 export class ChatRepository {
-  async getChat(chatId: string) {
+  async get(chatId: string) {
     return await db.collection("chats").doc(chatId).get();
   }
 
-  async setChat(chatId: string, chat: ChatDTO) {
+  async set(chatId: string, chat: ChatDTO) {
     return await db
       .collection("chats")
       .doc(chatId)

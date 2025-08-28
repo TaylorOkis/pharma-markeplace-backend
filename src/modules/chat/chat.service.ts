@@ -8,10 +8,10 @@ export class ChatService {
   async sendMessage(chat: ChatDTO) {
     let chatId, chatDoc;
     chatId = generateChatId(chat.sender_id, chat.receiver_id);
-    chatDoc = await this.chatRepository.getChat(chatId);
+    chatDoc = await this.chatRepository.get(chatId);
 
     if (!chatDoc.exists) {
-      await this.chatRepository.setChat(chatId, chat);
+      await this.chatRepository.set(chatId, chat);
     }
 
     const messageRef = await this.chatRepository.send(chatId, chat);
