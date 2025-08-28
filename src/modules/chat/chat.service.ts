@@ -11,11 +11,7 @@ export class ChatService {
     chatDoc = await this.chatRepository.getChat(chatId);
 
     if (!chatDoc.exists) {
-      chatId = generateChatId(chat.receiver_id, chat.sender_id);
-      chatDoc = await this.chatRepository.getChat(chatId);
-      if (!chatDoc.exists) {
-        await this.chatRepository.setChat(chatId, chat);
-      }
+      await this.chatRepository.setChat(chatId, chat);
     }
 
     const messageRef = await this.chatRepository.send(chatId, chat);

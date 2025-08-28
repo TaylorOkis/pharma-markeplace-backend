@@ -44,12 +44,9 @@ const authenticateLogin = async (
   const idToken = authHeader.split(" ")[1];
 
   try {
-    console.log("Trying to verify");
     await auth.verifyIdToken(idToken);
-    console.log("Verified");
     next();
   } catch (error) {
-    console.log("This was hit");
     throw new UnAuthenticatedError("Authorization Invalid");
   }
 };
