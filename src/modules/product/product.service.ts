@@ -24,7 +24,9 @@ export class ProductService {
   async getAllProductsForVendor(vendorId: string) {
     return await this.productrepository.getAllForVendor(vendorId);
   }
-  async getSingleProduct() {}
+  async getSingleProduct(productId: string) {
+    return await this.productrepository.findById(productId);
+  }
   async updateProduct() {}
   async deleteProduct() {}
 }

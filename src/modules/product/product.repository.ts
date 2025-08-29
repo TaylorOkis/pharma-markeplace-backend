@@ -16,6 +16,12 @@ export class ProductRepository {
   async update() {}
   async delete() {}
 
+  async findById(productId: string) {
+    const snapshot = await db.collection("products").doc(productId).get();
+
+    return snapshot.data();
+  }
+
   async findByVendorAndName({
     name,
     vendor_id,

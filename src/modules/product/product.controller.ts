@@ -30,21 +30,27 @@ export class ProductController {
       .json({ status: "success", count: products.length, data: products });
   });
 
-  getAllVendorProducts = asyncWrapper(
-    async (req: PayLoadRequest, res: Response) => {
-      const { vendorId: vendorId } = req.params;
+  getAllVendorProducts = asyncWrapper(async (req: Request, res: Response) => {
+    const { vendorId: vendorId } = req.params;
 
-      const products = await this.productService.getAllProductsForVendor(
-        vendorId! as string
-      );
+    const products = await this.productService.getAllProductsForVendor(
+      vendorId! as string
+    );
 
-      res
-        .status(StatusCodes.OK)
-        .json({ status: "success", count: products.length, data: products });
-    }
-  );
+    res
+      .status(StatusCodes.OK)
+      .json({ status: "success", count: products.length, data: products });
+  });
 
-  getSingleProduct = asyncWrapper(async (req: Request, res: Response) => {});
+  getSingleProduct = asyncWrapper(async (req: Request, res: Response) => {
+    const { id: productId } = req.params;
+
+    const product = await this.productService.getSingleProduct(
+      productId as string
+    );
+
+    res.status(StatusCodes.OK).json({ status: "success", data: product });
+  });
 
   updateProduct = asyncWrapper(async (req: Request, res: Response) => {});
 
