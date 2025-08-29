@@ -18,7 +18,12 @@ export class ProductService {
 
     return productRef;
   }
-  async getAllProducts() {}
+  async getAllProducts() {
+    return await this.productrepository.getAll();
+  }
+  async getAllProductsForVendor(vendorId: string) {
+    return await this.productrepository.getAllForVendor(vendorId);
+  }
   async getSingleProduct() {}
   async updateProduct() {}
   async deleteProduct() {}

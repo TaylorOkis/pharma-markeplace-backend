@@ -3,13 +3,11 @@ import { ProductDTO } from "./product.dtos.js";
 
 export class ProductRepository {
   async create(product: ProductDTO) {
-    const { vendor_id: vendor_id, ...productData } = product;
     return await db
       .collection("products")
       .doc()
       .set({
-        ...productData,
-        vendor_id: db.collection("users").doc(vendor_id),
+        ...product,
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
         updatedAt: admin.firestore.FieldValue.serverTimestamp(),
       });
@@ -17,6 +15,7 @@ export class ProductRepository {
 
   async update() {}
   async delete() {}
+
   async findByVendorAndName({
     name,
     vendor_id,
@@ -34,6 +33,23 @@ export class ProductRepository {
 
     return result;
   }
-  async getAll() {}
-  async getAllForVendor() {}
+
+  async getAll() {
+    const snapshots = await db.collection("products").get();
+
+    const data = snapshots.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    return data;
+  }
+
+  async getAllForVendor(vendorId: string) {
+    const snapshots = await db
+      .collection("products")
+      .where("vendor_id", "==", vendorId)
+      .get();
+
+    const data = snapshots.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    return data;
+  }
 }

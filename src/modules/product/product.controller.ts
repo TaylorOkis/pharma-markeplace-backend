@@ -15,12 +15,34 @@ export class ProductController {
       productToAdd as ProductDTO
     );
 
-    res
-      .status(StatusCodes.CREATED)
-      .json({ status: "success", message: "Product created successfully" });
+    res.status(StatusCodes.CREATED).json({
+      status: "success",
+      message: "Product created successfully",
+      data: productStatus,
+    });
   });
 
-  getAllProducts = asyncWrapper(async (req: Request, res: Response) => {});
+  getAllProducts = asyncWrapper(async (req: Request, res: Response) => {
+    const products = await this.productService.getAllProducts();
+
+    res
+      .status(StatusCodes.OK)
+      .json({ status: "success", count: products.length, data: products });
+  });
+
+  getAllVendorProducts = asyncWrapper(
+    async (req: PayLoadRequest, res: Response) => {
+      const { vendorId: vendorId } = req.params;
+
+      const products = await this.productService.getAllProductsForVendor(
+        vendorId! as string
+      );
+
+      res
+        .status(StatusCodes.OK)
+        .json({ status: "success", count: products.length, data: products });
+    }
+  );
 
   getSingleProduct = asyncWrapper(async (req: Request, res: Response) => {});
 
